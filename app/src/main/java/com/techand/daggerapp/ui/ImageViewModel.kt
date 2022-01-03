@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ImageViewModel @Inject constructor(val repository: ImageRepository) : ViewModel() {
+class ImageViewModel @Inject constructor(private val repository: ImageRepository) : ViewModel() {
 
     private val _imageData: MutableLiveData<ImageResponse> = MutableLiveData()
     val imageLiveData: LiveData<ImageResponse> = _imageData

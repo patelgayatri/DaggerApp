@@ -1,6 +1,6 @@
 package com.techand.daggerapp.di
 
-import com.techand.daggerapp.data.api.ApiService
+import com.techand.daggerapp.data.network.ApiService
 import com.techand.daggerapp.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -10,8 +10,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module
+
 @InstallIn(SingletonComponent::class)
+@Module
 object AppModule {
 
     @Provides
