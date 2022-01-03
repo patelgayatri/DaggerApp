@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.techand.daggerapp.R
-import com.techand.daggerapp.data.models.Image
+import com.techand.daggerapp.data.network.Resource
 import com.techand.daggerapp.databinding.FragmentHomeBinding
+import com.techand.daggerapp.util.handleApiError
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -42,8 +44,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             adapter =imageAdapter
         }
 
-        viewModel.imageLiveData.observe(viewLifecycleOwner, Observer {
-            imageAdapter.images = it as List<Image>
+        viewModel.imageLiveData.observe(viewLifecycleOwner, {
+
+            when (it) {
+                is Resource.Success -> {
+                    lifecycleScope.launch {
+                        imageAdapter.images = it.value
+                    }
+                }
+                is Resource.Failure -> handleApiError(it)
+            }
+
         })
     }
 

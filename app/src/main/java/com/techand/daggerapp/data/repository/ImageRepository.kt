@@ -4,7 +4,9 @@ import com.techand.daggerapp.data.network.ApiService
 import javax.inject.Inject
 
 
-class ImageRepository @Inject constructor(private val apiService: ApiService) {
+class ImageRepository @Inject constructor(private val apiService: ApiService):BaseRepository(apiService)  {
 
-    suspend fun getImages() = apiService.getImages()
+    suspend fun getImages() = safeApiCall {
+        apiService.getImages()
+    }
 }
